@@ -1,16 +1,16 @@
-const jwt = require('jsonwebtoken');
-const { login } = require('../services/user.service');
+const { login, register } = require('../services/user.service');
 
-const secret = process.env.JWT_SECRET;
+const userLogin = async (req, _res, next) => {
+    await login(req.body);
+    next();
+};
 
-const userLogin = async (req, res) => {
-    const signin = await login(req.body);
-    const jwtConfig = { expiresIn: '2d', algorithm: 'HS256' };
-    const token = jwt.sign({ data: { email: signin.email } }, secret, jwtConfig);
-    console.log(token);
-    res.status(200).json({ token });
+const userRegister = async (req, _res, next) => {
+    await register(req.body);
+    next();
 };
 
 module.exports = {
     userLogin,
+    userRegister,
 };
