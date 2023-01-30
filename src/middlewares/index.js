@@ -20,7 +20,8 @@ const validateUserRegister = (req, res, next) => {
 const generateJwt = (req, res) => {
     const jwtConfig = { expiresIn: '2d', algorithm: 'HS256' };
     const token = jwt.sign({ data: { email: req.body.email } }, secret, jwtConfig);
-    res.status(201).json({ token });
+    const status = req.route.path === '/login' ? 200 : 201;
+    res.status(status).json({ token });
 };
 
 const errorHandler = async (error, _req, res, _next) => {
