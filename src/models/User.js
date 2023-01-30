@@ -23,7 +23,7 @@ const UserModel = (sequelize, DataTypes) => {
         image: {
             type: DataTypes.STRING,
         }
-    }, { underscored: true });
+    }, { underscored: true, timestamps: false });
 
     return User;
 
