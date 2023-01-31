@@ -1,7 +1,13 @@
 const { Router } = require('express');
 const rescue = require('express-rescue');
-const { validateUserRequest, validateUserRegister, generateJwt } = require('../middlewares');
-const { userLogin, userRegister } = require('../controller/user.controller');
+const {
+    validateUserRequest,
+    validateUserRegister,
+    generateJwt,
+    validateJwt
+    } = require('../middlewares');
+    
+const { userLogin, userRegister, getUsers } = require('../controller/user.controller');
 
 const userRouter = Router();
 
@@ -19,5 +25,11 @@ userRouter.post(
     rescue(generateJwt),
 
 );
+
+userRouter.get(
+    '/user',
+    rescue(validateJwt),
+    rescue(getUsers),
+    );
 
 module.exports = userRouter;

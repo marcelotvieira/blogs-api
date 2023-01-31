@@ -31,13 +31,26 @@ const errorHandler = async (error, _req, res, _next) => {
     if (error.name.includes('Unique')) {
         return res.status(409).json({ message: 'User already registered' });
     }
-
     res.status(500).json({ message: error.name });
-  };
+};
+
+const validateJwt = (req, res, next) => {
+    const { authorization } = req.headers;
+    if (!authorization) return res.status(401).json({ message: 'Token not found' });
+
+    jwt.verify(authorization, secret, (err, decoded) => {
+        if (err) return res.status(401).json({ message: 'Expired or invalid token' });
+        req.user = decoded;
+        next();
+    });
+};
+
+// a express middleware to validate jwt token present int headers of request
 
 module.exports = {
     validateUserRequest,
     errorHandler,
     validateUserRegister,
     generateJwt,
+    validateJwt,
 };
