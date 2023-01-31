@@ -4,9 +4,9 @@ const {
     validateUserRequest,
     validateUserRegister,
     generateJwt,
-    validateJwt
+    validateJwt,
     } = require('../middlewares');
-    
+
 const { userLogin, userRegister, getUsers } = require('../controller/user.controller');
 
 const userRouter = Router();

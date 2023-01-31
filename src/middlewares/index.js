@@ -24,16 +24,6 @@ const generateJwt = (req, res) => {
     res.status(status).json({ token });
 };
 
-const errorHandler = async (error, _req, res, _next) => {
-    if (error instanceof ApiError) {
-      return res.status(error.statusCode).json({ message: error.message });
-    }
-    if (error.name.includes('Unique')) {
-        return res.status(409).json({ message: 'User already registered' });
-    }
-    res.status(500).json({ message: error.name });
-};
-
 const validateJwt = (req, res, next) => {
     const { authorization } = req.headers;
     if (!authorization) return res.status(401).json({ message: 'Token not found' });
@@ -45,7 +35,15 @@ const validateJwt = (req, res, next) => {
     });
 };
 
-// a express middleware to validate jwt token present int headers of request
+const errorHandler = async (error, _req, res, _next) => {
+    if (error instanceof ApiError) {
+      return res.status(error.statusCode).json({ message: error.message });
+    }
+    if (error.name.includes('Unique')) {
+        return res.status(409).json({ message: 'User already registered' });
+    }
+    res.status(500).json({ message: error.name });
+};
 
 module.exports = {
     validateUserRequest,
