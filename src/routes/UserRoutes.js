@@ -5,9 +5,13 @@ const {
     validateUserRegister,
     generateJwt,
     validateJwt,
-    } = require('../middlewares');
+} = require('../middlewares');
 
-const { userLogin, userRegister, getUsers } = require('../controller/user.controller');
+const { userLogin,
+    userRegister,
+    getUsers,
+    getUserById,
+ } = require('../controller/user.controller');
 
 const userRouter = Router();
 
@@ -30,6 +34,12 @@ userRouter.get(
     '/user',
     rescue(validateJwt),
     rescue(getUsers),
-    );
+);
+
+userRouter.get(
+    '/user/:id',
+    rescue(validateJwt),
+    rescue(getUserById),
+);
 
 module.exports = userRouter;

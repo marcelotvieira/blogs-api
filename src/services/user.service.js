@@ -20,11 +20,21 @@ const getAll = async () => {
     const users = await User.findAll(
         { attributes: { exclude: ['password'] } },
         );
-    return users;
+    return users;   
+};
+
+const getUser = async (id) => {
+    const user = await User.findOne({
+        where: { id: Number(id) },
+        attributes: { exclude: ['password'] },
+    });
+    if (!user) return ApiError.notFound('User does not exist');
+    return user;
 };
 
 module.exports = {
     login,
     register,
     getAll,
+    getUser,
 };
