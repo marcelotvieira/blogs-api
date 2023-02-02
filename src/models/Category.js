@@ -10,7 +10,6 @@ const CategoryModel = (sequelize, DataTypes) => {
         name: {
             type: DataTypes.STRING,
             allowNull: false,
-            field: 'display_name'
         },
     }, { underscored: true, timestamps: false });
 

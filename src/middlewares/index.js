@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const secret = process.env.JWT_SECRET;
 
 const ApiError = require('../error/ApiError');
+const { categoryValidation } = require('../validations/categoryValidations');
 const { userValidation, userRegisterValidation } = require('../validations/userValidations');
 
 const validateUserRequest = (req, res, next) => {
@@ -13,6 +14,12 @@ const validateUserRequest = (req, res, next) => {
 
 const validateUserRegister = (req, res, next) => {
     const { error } = userRegisterValidation.validate(req.body);
+    if (error) return ApiError.badRequest(error.message);
+    next();
+};
+
+const validateCategory = (req, res, next) => {
+    const { error } = categoryValidation.validate(req.body);
     if (error) return ApiError.badRequest(error.message);
     next();
 };
@@ -47,6 +54,7 @@ const errorHandler = async (error, _req, res, _next) => {
 
 module.exports = {
     validateUserRequest,
+    validateCategory,
     errorHandler,
     validateUserRegister,
     generateJwt,

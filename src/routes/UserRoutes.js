@@ -1,5 +1,8 @@
 const { Router } = require('express');
 const rescue = require('express-rescue');
+
+const userRouter = Router();
+
 const {
     validateUserRequest,
     validateUserRegister,
@@ -12,8 +15,6 @@ const { userLogin,
     getUsers,
     getUserById,
  } = require('../controller/user.controller');
-
-const userRouter = Router();
 
 userRouter.post(
     '/login',
