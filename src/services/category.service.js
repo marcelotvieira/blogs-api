@@ -7,6 +7,12 @@ const insert = (data) => {
     return newCategory;
 };
 
+const getAll = async () => {
+    const rows = await Category.findAll();
+    return rows;
+};
+
 module.exports = {
     insert,
+    getAll,
 };

@@ -7,6 +7,7 @@ const {
 
 const {
     insertCategory,
+    getCategories,
     } = require('../controller/category.controller');
 
 const categoryRoutes = Router();
@@ -16,6 +17,12 @@ categoryRoutes.post(
     rescue(validateJwt),
     rescue(validateCategory),
     rescue(insertCategory),
+);
+
+categoryRoutes.get(
+    '/categories',
+    rescue(validateJwt),
+    rescue(getCategories),
 );
 
 module.exports = categoryRoutes;
