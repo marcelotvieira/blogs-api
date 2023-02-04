@@ -3,6 +3,9 @@ const config = require('../config/config');
 const categServices = require('./category.service');
 const { BlogPost } = require('../models');
 const { PostCategory } = require('../models');
+const { User } = require('../models');
+const { Category } = require('../models');
+
 const ApiError = require('../error/ApiError');
 
 const env = process.env.NODE_ENV || 'development';
@@ -28,6 +31,16 @@ const insert = async ({ body, user: { data: { userId } } }) => {
     return response;
 };
 
+const getAll = async () => {
+    const users = BlogPost.findAll({
+        include: [
+            { model: User, as: 'user', attributes: { exclude: ['password'] } },
+            { model: Category, as: 'categories' }],
+        });
+    return users;
+};
+
 module.exports = {
     insert,
+    getAll,
 };
