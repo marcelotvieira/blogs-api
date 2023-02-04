@@ -1,4 +1,4 @@
-const { insert, getAll } = require('../services/post.service');
+const { insert, getAll, getById } = require('../services/post.service');
 
 const insertPost = async (req, res) => {
     const newPost = await insert(req);
@@ -10,7 +10,13 @@ const getPosts = async (req, res) => {
     res.status(200).json(posts);
 };
 
+const getPostById = async (req, res) => {
+    const post = await getById(req.params.id);
+    res.status(200).json(post);
+};
+
 module.exports = {
     insertPost,
     getPosts,
+    getPostById,
 };

@@ -32,15 +32,27 @@ const insert = async ({ body, user: { data: { userId } } }) => {
 };
 
 const getAll = async () => {
-    const users = BlogPost.findAll({
+    const posts = BlogPost.findAll({
         include: [
             { model: User, as: 'user', attributes: { exclude: ['password'] } },
-            { model: Category, as: 'categories' }],
-        });
-    return users;
+            { model: Category, as: 'categories' },
+        ] });
+    return posts;
+};
+
+const getById = async (id) => {
+    const post = await BlogPost.findOne({
+        where: { id },
+        include: [
+            { model: User, as: 'user', attributes: { exclude: ['password'] } },
+            { model: Category, as: 'categories' },
+        ] });
+        if (!post) ApiError.notFound('Post does not exist');
+    return post;
 };
 
 module.exports = {
     insert,
     getAll,
+    getById,
 };
