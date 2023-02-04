@@ -12,7 +12,11 @@ module.exports = (sequelize, DataTypes) => {
             field: 'category_id',
             foreignKey: true,
         }
-    }, { underscored: true, timestamps: false });
+    }, {
+        underscored: true,
+        timestamps: false,
+        tableName: 'posts_categories',
+    });
 
     PostCategory.associate = (models) => {
         models.Category.belongsToMany(models.BlogPost, {

@@ -16,12 +16,8 @@ const register = async (user) => {
     if (!signup.dataValues) ApiError.badRequest('erro no registro');    
 };
 
-const getAll = async () => {
-    const users = await User.findAll(
-        { attributes: { exclude: ['password'] } },
-        );
-    return users;   
-};
+const getAll = async () => User
+    .findAll({ attributes: { exclude: ['password'] } });
 
 const getUser = async (id) => {
     const user = await User.findOne({

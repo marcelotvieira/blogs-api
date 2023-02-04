@@ -4,6 +4,7 @@ const secret = process.env.JWT_SECRET;
 
 const ApiError = require('../error/ApiError');
 const { categoryValidation } = require('../validations/categoryValidations');
+const { postValidation } = require('../validations/postValidations');
 const { userValidation, userRegisterValidation } = require('../validations/userValidations');
 
 const validateUserRequest = (req, res, next) => {
@@ -26,7 +27,12 @@ const validateCategory = (req, res, next) => {
 
 const generateJwt = (req, res) => {
     const jwtConfig = { expiresIn: '2d', algorithm: 'HS256' };
-    const token = jwt.sign({ data: { email: req.body.email } }, secret, jwtConfig);
+    const token = jwt.sign(
+        {
+            data: { email: req.body.email, userId: req.user.id } },
+            secret,
+            jwtConfig,
+        );
     const status = req.route.path === '/login' ? 200 : 201;
     res.status(status).json({ token });
 };
@@ -42,6 +48,12 @@ const validateJwt = (req, res, next) => {
     });
 };
 
+const postValidate = (req, res, next) => {
+    const { error } = postValidation.validate(req.body);
+    if (error) ApiError.badRequest('Some required fields are missing');
+    next();
+};
+
 const errorHandler = async (error, _req, res, _next) => {
     if (error instanceof ApiError) {
       return res.status(error.statusCode).json({ message: error.message });
@@ -49,7 +61,7 @@ const errorHandler = async (error, _req, res, _next) => {
     if (error.name.includes('Unique')) {
         return res.status(409).json({ message: 'User already registered' });
     }
-    res.status(500).json({ message: error.name });
+    res.status(500).json({ message: error });
 };
 
 module.exports = {
@@ -59,4 +71,5 @@ module.exports = {
     validateUserRegister,
     generateJwt,
     validateJwt,
+    postValidate,
 };

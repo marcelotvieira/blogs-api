@@ -1,7 +1,8 @@
 const { login, register, getAll, getUser } = require('../services/user.service');
 
 const userLogin = async (req, _res, next) => {
-    await login(req.body);
+    const user = await login(req.body);
+    req.user = user;
     next();
 };
 
