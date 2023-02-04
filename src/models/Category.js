@@ -13,6 +13,7 @@ const CategoryModel = (sequelize, DataTypes) => {
         },
     }, { underscored: true, timestamps: false });
 
+
     return Category;
 
 };

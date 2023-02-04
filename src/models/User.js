@@ -1,5 +1,3 @@
-
-
 const UserModel = (sequelize, DataTypes) => {
     const User = sequelize.define('User', {
         id: {
@@ -29,11 +27,7 @@ const UserModel = (sequelize, DataTypes) => {
         User.hasMany(models.BlogPost,
             { foreignKey: 'userId', as: 'blog_posts' });
         };
-
-    // const BlogPost = BlogPostModel(sequelize, DataTypes);
-
     return User;
-
 };
 
 module.exports = UserModel;

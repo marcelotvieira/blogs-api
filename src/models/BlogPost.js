@@ -1,5 +1,3 @@
-const UserModel = require('./User');
-
 const BlogPostModel = (sequelize, DataTypes) => {
     const BlogPost = sequelize.define('BlogPost', {
         id: {
@@ -34,8 +32,6 @@ const BlogPostModel = (sequelize, DataTypes) => {
         BlogPost.belongsTo(models.User,
             { foreignKey: 'userId', as: 'users' });
         };
-
-
     return BlogPost;
 };
 
