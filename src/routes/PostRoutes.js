@@ -1,10 +1,15 @@
 const { Router } = require('express');
 const rescue = require('express-rescue');
-const { validateJwt, postValidate } = require('../middlewares');
+const { validateJwt, postValidate, updatePostValidate } = require('../middlewares');
 
 const postRouter = Router();
 
-const { insertPost, getPosts, getPostById } = require('../controller/post.controller');
+const { 
+    insertPost,
+     getPosts,
+    getPostById,
+    updatePost,
+     } = require('../controller/post.controller');
 
 postRouter.post(
     '/post',
@@ -23,6 +28,13 @@ postRouter.get(
     '/post/:id',
     rescue(validateJwt),
     rescue(getPostById),
+);
+
+postRouter.put(
+    '/post/:id',
+    rescue(validateJwt),
+    rescue(updatePostValidate),
+    rescue(updatePost),
 );
 
 module.exports = postRouter;

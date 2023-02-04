@@ -4,7 +4,7 @@ const secret = process.env.JWT_SECRET;
 
 const ApiError = require('../error/ApiError');
 const { categoryValidation } = require('../validations/categoryValidations');
-const { postValidation } = require('../validations/postValidations');
+const { postValidation, updatePostValidation } = require('../validations/postValidations');
 const { userValidation, userRegisterValidation } = require('../validations/userValidations');
 
 const validateUserRequest = (req, res, next) => {
@@ -48,8 +48,15 @@ const validateJwt = (req, res, next) => {
     });
 };
 
-const postValidate = (req, res, next) => {
+const postValidate = (req, _res, next) => {
     const { error } = postValidation.validate(req.body);
+    if (error) ApiError.badRequest('Some required fields are missing');
+    next();
+};
+
+const updatePostValidate = (req, _res, next) => {
+    const { error } = updatePostValidation.validate(req.body);
+    console.log(error);
     if (error) ApiError.badRequest('Some required fields are missing');
     next();
 };
@@ -71,5 +78,6 @@ module.exports = {
     validateUserRegister,
     generateJwt,
     validateJwt,
+    updatePostValidate,
     postValidate,
 };

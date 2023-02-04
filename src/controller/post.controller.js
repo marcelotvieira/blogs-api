@@ -1,4 +1,4 @@
-const { insert, getAll, getById } = require('../services/post.service');
+const { insert, getAll, getById, updateById } = require('../services/post.service');
 
 const insertPost = async (req, res) => {
     const newPost = await insert(req);
@@ -15,8 +15,14 @@ const getPostById = async (req, res) => {
     res.status(200).json(post);
 };
 
+const updatePost = async (req, res) => {
+    const updated = await updateById(req);
+    res.status(200).json(updated);
+};
+
 module.exports = {
     insertPost,
     getPosts,
     getPostById,
+    updatePost,
 };

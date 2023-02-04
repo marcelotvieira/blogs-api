@@ -51,8 +51,23 @@ const getById = async (id) => {
     return post;
 };
 
+const updateById = async ({ user, params, body }) => {
+    const updateTarget = await getById(params.id);
+    if (!updateTarget) ApiError.notFound('Post does not exist');
+    if (updateTarget.id !== user.data.userId) ApiError.unauthorized('Unauthorized user');
+
+    const published = new Date().toISOString();
+    await BlogPost.update(
+        { published, ...body },
+        { where: { id: params.id } },
+        );
+    const { dataValues } = await getById(params.id);
+    return dataValues;
+};
+
 module.exports = {
     insert,
     getAll,
     getById,
+    updateById,
 };
