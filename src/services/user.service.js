@@ -14,6 +14,7 @@ const login = async (data) => {
 const register = async (user) => {
     const signup = await User.create(user);
     if (!signup.dataValues) ApiError.badRequest('erro no registro');    
+    return signup.dataValues;
 };
 
 const getAll = async () => User

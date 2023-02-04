@@ -7,7 +7,8 @@ const userLogin = async (req, _res, next) => {
 };
 
 const userRegister = async (req, _res, next) => {
-    await register(req.body);
+    const user = await register(req.body);
+    req.user = user;
     next();
 };
 
